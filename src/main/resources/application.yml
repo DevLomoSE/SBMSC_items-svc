@@ -1,1 +1,9 @@
+spring:
+  application:
+    name: ms-products-svc
+  profiles:
+    active: default
+    
+server:
+  port: 8002
 
