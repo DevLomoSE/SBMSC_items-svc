@@ -33,7 +33,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<Item> findAll() {
-		log.info("retrieving products from the ms products");
+		log.info("retrieving products from the ms products using restclient");
 		
 		RestResponse response = restClient.getForObject("http://lomopc.com:8001/sbms/products", 
 														RestResponse.class);
