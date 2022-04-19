@@ -1,9 +1,21 @@
 spring:
   application:
-    name: ms-products-svc
+    name: ms-items-svc
   profiles:
     active: default
     
 server:
   port: 8002
 
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.value} 
+  client:
+    service-url:
+      defaultZone: http://eurekasrv.sbms.com:8761/eureka
+      
+sbms:
+  api:
+    products:
+      endpoint: http://products.dconcesionaria.lomosrv.com:8001
+      resource: /sbms/products
