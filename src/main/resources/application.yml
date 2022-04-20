@@ -12,10 +12,10 @@ eureka:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}} 
   client:
     service-url:
-      defaultZone: http://eurekasrv.dconcesionaria.lomosrv.com:8761/eureka
+      defaultZone: http://eurekasrv.dsbms.lomosrv.com:8761/eureka
       
 sbms:
   api:
     products:
-      endpoint: http://products.dconcesionaria.lomosrv.com
+      endpoint: http://products.dsbms.lomosrv.com
       resource: /sbms/products
