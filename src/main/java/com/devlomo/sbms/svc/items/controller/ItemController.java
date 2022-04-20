@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +27,9 @@ public class ItemController {
 	private ItemService itemService;
 	
 	@GetMapping("/find")
-	public ResponseEntity<Object> getAll(){
+	public ResponseEntity<Object> getAll(@RequestHeader(name="token-request") String token){
 		log.info("find all items");
+		log.warn("request token: {}", token);
 		try {
 			List<Item> items = itemService.findAll();
 			return Response.generate("find all", HttpStatus.OK, items);
