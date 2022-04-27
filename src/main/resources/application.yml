@@ -18,4 +18,26 @@ sbms:
   api:
     products:
       endpoint: http://products.dsbms.lomosrv.com
-      resource: /sbms/products
+      resource: /sbms/products    
+      
+resilience4j:
+  circuitbreaker:
+    configs:
+      default: 
+        sliding-window-size: 20
+        failure-rate-threshold: 15
+        wait-duration-in-open-state: 15s
+        permitted-number-of-calls-in-half-open-state: 10
+        slow-call-rate-threshold: 20
+        slow-call-duration-threshold: 2s
+    instances:
+      items:
+        base-config: default
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 3s
+    instances:
+      items:
+        base-config: default
+        
