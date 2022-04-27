@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devlomo.sbms.svc.items.service.ItemService;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.extern.slf4j.Slf4j;
 
 import com.devlomo.sbms.svc.items.model.Item;
@@ -56,6 +58,36 @@ public class ItemController {
 						Item item = itemService.findById(id, amount);
 						return Response.generate("find all", HttpStatus.OK, item);
 					}, e -> alternativeMethod(id, amount, e));
+		} catch (Exception e) {
+			log.warn("error while retrieving item by id:{}", id);
+			log.error("error: {}", e);
+			return Response.generate("error", HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+	
+	@CircuitBreaker(name = "items", fallbackMethod = "alternativeMethod")
+	@GetMapping("/find2/detail")
+	public ResponseEntity<Object> getDetail2(@RequestParam Long id, 
+											@RequestParam Integer amount){
+		log.info("find item by id: {}, amount: {}", id, amount);
+		try {
+			Item item = itemService.findById(id, amount);
+			return Response.generate("find all", HttpStatus.OK, item);
+		} catch (Exception e) {
+			log.warn("error while retrieving item by id:{}", id);
+			log.error("error: {}", e);
+			return Response.generate("error", HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+	
+	@TimeLimiter(name = "items")
+	@GetMapping("/find3/detail")
+	public ResponseEntity<Object> getDetail3(@RequestParam Long id, 
+											@RequestParam Integer amount){
+		log.info("find item by id: {}, amount: {}", id, amount);
+		try {
+			Item item = itemService.findById(id, amount);
+			return Response.generate("find all", HttpStatus.OK, item);
 		} catch (Exception e) {
 			log.warn("error while retrieving item by id:{}", id);
 			log.error("error: {}", e);
